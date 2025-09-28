@@ -1,3 +1,21 @@
 {{>layouts/header}}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Title</th>
+        <th scope="col">Content</th>
+    </tr>
+    </thead>
+    {{#articleList}}
+        <tr>
+            <th>{{id}}</th>
+            <th><a href="articles/{{id}}">{{title}}</a></th>
+            <td>{{content}}</td>
+            <td>{{author}}</td>
+            <td>{{createdAt}}</td>
+        </tr>
+    {{/articleList}}
+</table>
 <a href="articles/new">새 글 작성</a>
 {{>layouts/footer}}

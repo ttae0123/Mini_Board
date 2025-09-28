@@ -22,8 +22,10 @@ public class ArticleController {
         this.articleRepository = articleRepository;
     }
 
-    @GetMapping("/articles") //글 목록, 아직 안함
-    public String listArticles() {
+    @GetMapping("/articles") //글 목록
+    public String listArticles(Model model) {
+        List<Article> articleEntityList = articleRepository.findAll();
+        model.addAttribute("articleList", articleEntityList);
         return "articles/list";
     }
 
@@ -35,7 +37,7 @@ public class ArticleController {
     @PostMapping("/articles/new") //글 저장 후 목록 리다이렉트 O
     public String createArticle(ArticleForm form){
         Article article = form.toEntity();
-        Article saved = articleRepository.save(article);
+        articleRepository.save(article);
         return "redirect:/articles";
     }
 
