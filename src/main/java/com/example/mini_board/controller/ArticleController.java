@@ -1,6 +1,8 @@
 package com.example.mini_board.controller;
 
+import com.example.mini_board.dto.ArticleForm;
 import com.example.mini_board.entity.Article;
+import com.example.mini_board.repository.ArticleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +16,14 @@ import java.util.List;
 @Slf4j
 public class ArticleController {
 
+    private final ArticleRepository articleRepository;
+
+    public ArticleController(ArticleRepository articleRepository) {
+        this.articleRepository = articleRepository;
+    }
+
     @GetMapping("/articles") //글 목록
     public String listArticles() {
-        log.info("list");
         return "articles/list";
     }
 
@@ -26,8 +33,11 @@ public class ArticleController {
     }
 
     @PostMapping("/articles/new") //글 저장 후 목록 리다이렉트
-    public String createArticle(){
-        return "redirect:/articles/";
+    public String createArticle(ArticleForm form){
+        Article article = form.toEntity();
+        Article saved = articleRepository.save(article);
+        log.info(saved.toString());
+        return "redirect:/articles";
     }
 
     @GetMapping("articles/{id}") //글 상세 조회
