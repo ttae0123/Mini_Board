@@ -22,26 +22,28 @@ public class ArticleController {
         this.articleRepository = articleRepository;
     }
 
-    @GetMapping("/articles") //글 목록
+    @GetMapping("/articles") //글 목록, 아직 안함
     public String listArticles() {
         return "articles/list";
     }
 
-    @GetMapping("/articles/new") //작성 폼
+    @GetMapping("/articles/new") //작성 폼 O
     public String newArticle(){
         return "articles/new";
     }
 
-    @PostMapping("/articles/new") //글 저장 후 목록 리다이렉트
+    @PostMapping("/articles/new") //글 저장 후 목록 리다이렉트 O
     public String createArticle(ArticleForm form){
         Article article = form.toEntity();
         Article saved = articleRepository.save(article);
-        log.info(saved.toString());
         return "redirect:/articles";
     }
 
     @GetMapping("articles/{id}") //글 상세 조회
-    public String detailArticle(@PathVariable String id){
+    public String detailArticle(@PathVariable Long id,Model model){
+        Article articleEntity = articleRepository.findById(id).orElse(null);
+        model.addAttribute("article", articleEntity);
+        log.info(articleEntity.toString());
         return "articles/detail";
     }
 
@@ -51,13 +53,13 @@ public class ArticleController {
     }
 
     @PostMapping("articles/{id}/edit") //글 수정 후 상세 페이지 리다이렉트
-    public String updateArticle(@PathVariable String id){
-        return "redirect:/articles/";//+id
+    public String updateArticle(@PathVariable Long id){
+        return "redirect:/articles";//+id
     }
 
     @PostMapping("articles/{id}/delete") //글 삭제 후 목록 리다이렉트
-    public String deleteArticle(@PathVariable String id){
-        return "redirect:/articles/";
+    public String deleteArticle(@PathVariable Long id){
+        return "redirect:/articles";
     }
 
 }

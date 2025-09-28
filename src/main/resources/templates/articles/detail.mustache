@@ -1,0 +1,12 @@
+{{>layouts/header}}
+{{#articles}}
+    <tr>
+        <th>{{id}}</th>
+        <th>{{title}}</th>
+        <td>{{content}}</td>
+    </tr>
+{{/articles}}
+<a href="/articles/edit">수정</a>
+<a href="/articles/delete">삭제</a>
+<a href="/articles">목록으로 돌아가기</a>
+{{>layouts/footer}}
