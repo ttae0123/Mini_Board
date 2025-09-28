@@ -1,11 +1,24 @@
 {{>layouts/header}}
 <form action="/articles/new" method="post">
-    <label>제목</label>
-    <input type="text" name="title">
-    <label>내용</label>
-    <textarea name="content"></textarea>
-    <label>글쓴이</label>
-    <input type="text" name="author">
-    <button type="submit" class="btn btn-primary">저장</button>
+    <div class="mb-3">
+        <label for="articleTitle" class="form-label fw-bold">제목</label>
+        <input type="text" class="form-control" id="articleTitle" name="title" placeholder="제목을 입력해 주세요." required>
+    </div>
+    <div class="mb-3">
+        <label for="articleContent" class="form-label fw-bold">내용</label>
+        <textarea class="form-control" id="articleContent" name="content" rows="8" placeholder="내용을 입력해 주세요." required></textarea>
+    </div>
+    <div class="mb-4">
+        <label for="articleAuthor" class="form-label fw-bold">글쓴이</label>
+        <input type="text" class="form-control" id="articleAuthor" name="author" placeholder="글쓴이 닉네임을 입력해 주세요.">
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary flex-grow-1 me-md-2 mb-2 mb-md-0">
+            저장하기
+        </button>
+        <a href="/articles" class="btn btn-secondary flex-grow-1">
+            목록으로 돌아가기
+        </a>
+    </div>
 </form>
 {{>layouts/footer}}

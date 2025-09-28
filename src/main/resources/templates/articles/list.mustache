@@ -1,21 +1,28 @@
 {{>layouts/header}}
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Title</th>
-        <th scope="col">Content</th>
-    </tr>
-    </thead>
-    {{#articleList}}
+<div class="container mt-5">
+    <h1 class="mb-4">게시글 목록</h1>
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
         <tr>
-            <th>{{id}}</th>
-            <th><a href="articles/{{id}}">{{title}}</a></th>
-            <td>{{content}}</td>
-            <td>{{author}}</td>
-            <td>{{createdAt}}</td>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Content</th>
+            <th scope="col">Author</th>
+            <th scope="col">Date</th>
         </tr>
-    {{/articleList}}
-</table>
-<a href="articles/new">새 글 작성</a>
+        </thead>
+        <tbody>
+        {{#articleList}}
+            <tr>
+                <th scope="row">{{id}}</th>
+                <td><a href="articles/{{id}}" class="text-decoration-none">{{title}}</a></td>
+                <td>{{content}}</td>
+                <td>{{author}}</td>
+                <td>{{createdAt}}</td>
+            </tr>
+        {{/articleList}}
+        </tbody>
+    </table>
+    <a href="articles/new" class="btn btn-primary mt-3">새 글 작성</a>
+</div>
 {{>layouts/footer}}
