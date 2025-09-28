@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -22,41 +23,40 @@ public class ArticleController {
         this.articleRepository = articleRepository;
     }
 
-    @GetMapping("/articles") //글 목록 O
+    @GetMapping("/articles")
     public String listArticles(Model model) {
         List<Article> articleEntityList = articleRepository.findAll();
         model.addAttribute("articleList", articleEntityList);
         return "articles/list";
     }
 
-    @GetMapping("/articles/new") //작성 폼 O
+    @GetMapping("/articles/new")
     public String newArticle(){
         return "articles/new";
     }
 
-    @PostMapping("/articles/new") //글 저장 후 목록 리다이렉트 O
+    @PostMapping("/articles/new")
     public String createArticle(ArticleForm form){
         Article article = form.toEntity();
         articleRepository.save(article);
         return "redirect:/articles";
     }
 
-    @GetMapping("articles/{id}") //글 상세 조회 O
+    @GetMapping("articles/{id}")
     public String detailArticle(@PathVariable Long id,Model model){
         Article articleEntity = articleRepository.findById(id).orElse(null);
         model.addAttribute("article", articleEntity);
         return "articles/detail";
     }
 
-    @GetMapping("articles/{id}/edit") //글 수정 폼
+    @GetMapping("articles/{id}/edit")
     public String editArticle(@PathVariable Long id,Model model){
         Article articleEntity = articleRepository.findById(id).orElse(null);
         model.addAttribute("article", articleEntity);
-        log.info("수정요청");
         return "articles/edit";
     }
 
-    @PostMapping("articles/{id}/edit") //글 수정 후 상세 페이지 리다이렉트
+    @PostMapping("articles/{id}/edit")
     public String updateArticle(@PathVariable Long id,ArticleForm form){
         Article target = articleRepository.findById(id).orElse(null);
         if (target != null) {
@@ -65,12 +65,15 @@ public class ArticleController {
             target.setAuthor(form.getAuthor());
             articleRepository.save(target);
         }
-        log.info(target.toString());
         return "redirect:/articles/" + id;
     }
 
-    @PostMapping("articles/{id}/delete") //글 삭제 후 목록 리다이렉트
+    @GetMapping("articles/{id}/delete") //삭제는 POST를 쓸 BODY가 필요없기 때문에 Get으로 대체
     public String deleteArticle(@PathVariable Long id){
+        Article target = articleRepository.findById(id).orElse(null);
+        if(target != null){
+            articleRepository.delete(target);
+        }
         return "redirect:/articles";
     }
 
